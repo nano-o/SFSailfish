@@ -162,22 +162,6 @@ impl Consensus {
                         })
                         .map(|(_, x)| self.committee.stake(&x.origin()))
                         .sum();
-                    // // 遍历所有轮次，查找包含 leader_digest 的轮次
-                    // let leader_round = state.dag
-                    // .iter()
-                    // .find_map(|(round, certs)| {
-                    //     certs.values()
-                    //         .any(|(d, _)| d == leader_digest)
-                    //         .then_some(*round)
-                    // })
-                    // .expect("Leader digest not found in any round of DAG");
-
-                    // info!("Leader digest {:?} found in round {}", leader_digest, leader_round);
-                    // for (_, (_, cert)) in state.dag.get(&round).unwrap() {
-                    //     let parents = state.parent_info.get(&cert.header_id).unwrap();
-                    //     info!("Certificate {:?} parents: {:?}", cert.digest(), parents);
-                    //     info!("Contains leader_digest? {}", parents.contains(&leader_digest));
-                    // }
 
                     // If it is the case, we can commit the leader. But first, we need to recursively go back to
                     // the last committed leader, and commit all preceding leaders in the right order. Committing
@@ -227,17 +211,6 @@ impl Consensus {
                             info!("Committed {:?} ", certificate.header_id);
                         }
         
-                        // #[cfg(feature = "benchmark")]
-                        // for digest in certificate.header.payload.keys() {
-                        //     // NOTE: This log entry is used to compute performance.
-                        //     if certificate.header.round == leader_round {
-                        //         info!("Committed {} -> {:?} of round R-0 {}", certificate.header, digest, certificate.header.round);
-                        //     }else if certificate.header.round == leader_round-1 {
-                        //         info!("Committed {} -> {:?} of round R-1 {}", certificate.header, digest, certificate.header.round);
-                        //     }else if certificate.header.round == leader_round-2 {
-                        //         info!("Committed {} -> {:?} of round R-2 {}", certificate.header, digest, certificate.header.round);
-                        //     }
-                        // }  
                     }
                     self.tx_primary
                         .send(certificate.clone())
