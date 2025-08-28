@@ -211,8 +211,6 @@ impl Consensus {
                         .entry(round)
                         .or_insert_with(HashMap::new)
                         .insert(certificate.origin(), (certificate.header_id.clone(), certificate.clone()));
-
-
                 }
             }
         }
