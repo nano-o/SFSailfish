@@ -95,7 +95,7 @@ def install(ctx):
 
 
 @task
-def remote(ctx, burst = 50, debug=False, consensus_only=False, header_size=512):
+def remote(ctx, burst = 50, debug=False, consensus_only=True, header_size=512_000):
     ''' Run benchmarks on GCP '''
     bench_params = {
         'faults': 0,
@@ -104,7 +104,7 @@ def remote(ctx, burst = 50, debug=False, consensus_only=False, header_size=512):
         'collocate': True,
         'rate': [100000],
         'tx_size': 512,
-        'duration': 60,
+        'duration': 180,
         'runs': 1,
         'burst' : [burst],
     }
