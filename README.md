@@ -29,7 +29,7 @@ $ cd benchmark
 $ pip install -r requirements.txt
 ```
 You also need to install Clang (required by rocksdb). 
-After commenting out lines 12–20 in benchmark/instance.py, run a local benchmark using Fabric:
+After commenting out lines 12–20 in ```benchmark/instance.py```, run a local benchmark using Fabric:
 ```bash
 $ fab local
 ```
@@ -63,3 +63,52 @@ This command may take a long time the first time you run it (compiling rust code
  Consensus non leader latency: 7 ms
 -----------------------------------------
 ```
+
+# Running Experiments on GCP
+The GCP configuration is specified in ```benchmark/settings.json```.
+Please fill in the following fields: 
+```  
+"key": {
+        "name": "",
+        "path": ""
+    },
+    "github_deploy_key": {
+        "name": "",
+        "path": ""
+    },
+```
+You also need to complete the missing values at lines 13–14 and lines 30–31 in ```benchmark/instance.py```.
+
+In addition, place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) as ```key.json``` under ```benchmark/```.
+
+Then you can run 
+```bash
+$ fab create --nodes=x
+```
+This will create $x\times 5$ instances in total, since we set 5 regions is set in ```settings.json```.
+
+Then run: 
+```bash
+$ fab install
+```
+to install Rust and clone the repository on all created instances.
+
+Finally, run:
+```bash
+$ fab remote
+```
+to collect the experiment results from the remote instances.
+
+You can adjust the parameters in fabfile.py to explore different settings.
+
+	•	Set nodes = 50 to run with 50 nodes.
+
+	•	Set header_size = 128_000 to use a header size of 128 KB.
+
+In OptSFSailfish and SFSailfishFault, you also need to configure the parameter ```f_num``` based on the selected value of ```nodes```.
+
+After completing all experiments, run:
+```bash
+$ fab destroy
+```
+to shut down all the machines.
