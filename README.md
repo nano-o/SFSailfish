@@ -107,6 +107,10 @@ You can adjust the parameters in fabfile.py to explore different settings.
 
 In OptSFSailfish and SFSailfishFault, you also need to configure the parameter ```f_num``` based on the selected value of ```nodes```.
 
+For n=10 and n=25, by tuning ```header_size``` over [128_000, 512_000, 1024_000, 1500_000, 2048_000, 3072_000, 4096_000, 5120_000], you will get the figures.
+
+For n= 50, by tuning ```header_size``` over [128_000, 256_000, 512_000, 768_000, 1024_000, 1536_000, 2048_000, 3072_000, 4096_000], you will get the figures.
+
 After completing all experiments, run:
 ```bash
 $ fab destroy
