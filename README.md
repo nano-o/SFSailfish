@@ -112,3 +112,7 @@ After completing all experiments, run:
 $ fab destroy
 ```
 to shut down all the machines.
+
+# Formal Specifications
+
+See the [formal-specifications](./formal-specifications) directory.
