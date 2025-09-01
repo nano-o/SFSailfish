@@ -66,7 +66,7 @@ This command may take a long time the first time you run it (compiling rust code
 
 # Running Experiments on GCP
 The GCP configuration is specified in ```benchmark/settings.json```.
-Please fill in the following field with the path to the private key:
+Please fill in the name and path of the SSH key used to connect to the GCP machines: 
 ```  
 "key": {
         "name": "",
@@ -80,9 +80,19 @@ For example:
         "path": "/home/user/.ssh/sf-dag"
     },
 ```
-You also need to complete the missing public key path at line 14 in ```benchmark/instance.py```.
 
-In addition, place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) as ```key.json``` under ```benchmark/```.
+You also need to place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) somewhere on your filesystem and indicate its location in ```benchmark/benchmark/instance.py``` line 13.
+For example:
+```
+GCP_KEY_PATH = '../benchmark/benchmark/key.json'
+
+```
+
+Finally, you also need to indicate the location of your SSH public key in ```benchmark/benchmark/instance.py``` line 14.
+For example:
+```
+SSH_PUB_KEY_PATH = '/home/user/.ssh/sf-dag.pub'
+```
 
 Then you can run 
 ```bash
@@ -102,20 +112,19 @@ Finally, run:
 $ fab remote
 ```
 to run and collect the experiment results from the remote instances.
+You can find the results in the ```results``` directory.
 
 You can adjust the parameters in fabfile.py to explore different settings.
 
 	•	Set nodes = 50 to run with 50 nodes.
 
-	•	Set header_size = 128_000 to use a header size of 128 KB.
+	•	Set header_size = 128_000 to use a header size (i.e. block size) of 128 KB.
 
 In OptSFSailfish, you also need to configure the parameter ```f_num``` based on the selected value of ```nodes``` (so that ```3*f_num < n```, e.g. ```3``` for ```n=10```).
 
 For n=10 and n=25, by tuning ```header_size``` over [128_000, 512_000, 1024_000, 1500_000, 2048_000, 3072_000, 4096_000, 5120_000], you will get the figures.
 
 For n= 50, by tuning ```header_size``` over [128_000, 256_000, 512_000, 768_000, 1024_000, 1536_000, 2048_000, 3072_000, 4096_000], you will get the figures.
-
-You can get the results in ```results```.
 
 After completing all experiments, run:
 ```bash
