@@ -107,7 +107,7 @@ class InstanceManager:
                                 "boot": True,
                                 "autoDelete": True,
                                 "initializeParams": {
-                                    "sourceImage": "projects/ubuntu-os-cloud/global/images/family/ubuntu-2004-lts"
+                                    "sourceImage": "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
                                 }
                             }
                         ],
