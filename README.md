@@ -69,31 +69,39 @@ The GCP configuration is specified in ```benchmark/settings.json```.
 Please fill in the following field with the path to the private key:
 ```  
 "key": {
-        "name": "sf-dag",
+        "name": "",
         "path": ""
     },
 ```
-In addition, place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) as ```key.json``` under ```benchmark/```.
-
+For example:
+```  
+"key": {
+        "name": "sf-dag",
+        "path": "/home/user/.ssh/sf-dag"
+    },
+```
 You also need to complete the missing public key path at line 14 in ```benchmark/instance.py```.
+
+In addition, place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) as ```key.json``` under ```benchmark/```.
 
 Then you can run 
 ```bash
-$ fab create --nodes=x
+$ fab create --nodes=2
 ```
-This will create $x\times 5$ instances in total, since we set 5 regions is set in ```settings.json```.
+This will create 10 instances in total: 2 for each of the 5 regions defined in ```settings.json```.
+If you change this number, you must also change `'nodes': 10` in fabfile.py, line 102.
 
 Then run: 
 ```bash
 $ fab install
 ```
-to install Rust and clone the repository on all created instances.
+to install Rust and clone the repository on all created instances (may take 10 minutes or more).
 
 Finally, run:
 ```bash
 $ fab remote
 ```
-to collect the experiment results from the remote instances.
+to run and collect the experiment results from the remote instances.
 
 You can adjust the parameters in fabfile.py to explore different settings.
 
@@ -101,7 +109,7 @@ You can adjust the parameters in fabfile.py to explore different settings.
 
 	•	Set header_size = 128_000 to use a header size of 128 KB.
 
-In OptSFSailfish and SFSailfishFault, you also need to configure the parameter ```f_num``` based on the selected value of ```nodes```.
+In OptSFSailfish, you also need to configure the parameter ```f_num``` based on the selected value of ```nodes``` (so that ```3*f_num < n```, e.g. ```3``` for ```n=10```).
 
 For n=10 and n=25, by tuning ```header_size``` over [128_000, 512_000, 1024_000, 1500_000, 2048_000, 3072_000, 4096_000, 5120_000], you will get the figures.
 
