@@ -66,20 +66,16 @@ This command may take a long time the first time you run it (compiling rust code
 
 # Running Experiments on GCP
 The GCP configuration is specified in ```benchmark/settings.json```.
-Please fill in the following fields: 
+Please fill in the following field with the path to the private key:
 ```  
 "key": {
-        "name": "",
-        "path": ""
-    },
-    "github_deploy_key": {
-        "name": "",
+        "name": "sf-dag",
         "path": ""
     },
 ```
-You also need to complete the missing values at lines 13–14 and lines 30–31 in ```benchmark/instance.py```.
-
 In addition, place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) as ```key.json``` under ```benchmark/```.
+
+You also need to complete the missing public key path at line 14 in ```benchmark/instance.py```.
 
 Then you can run 
 ```bash
