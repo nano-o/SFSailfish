@@ -115,6 +115,8 @@ For n=10 and n=25, by tuning ```header_size``` over [128_000, 512_000, 1024_000,
 
 For n= 50, by tuning ```header_size``` over [128_000, 256_000, 512_000, 768_000, 1024_000, 1536_000, 2048_000, 3072_000, 4096_000], you will get the figures.
 
+You can get the results in ```results```.
+
 After completing all experiments, run:
 ```bash
 $ fab destroy
