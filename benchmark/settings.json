@@ -1,7 +1,7 @@
 {
     "key": {
         "name": "sf-dag",
-        "path": "/home/user/sf-dag"
+        "path": "/home/user/.ssy/sf-dag"
     },
     "port": 5000,
     "repo": {
