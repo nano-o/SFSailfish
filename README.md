@@ -4,35 +4,54 @@ This is the repository for the Artifact Evaluation of CCS'25 "Optimistic, Signat
 For all questions about the artifact, including troubleshooting, please e-mail Qianyu Yu qyu100@connect.hkust-gz.edu.cn
 
 # Artifact Overview
-This artifact contains, and allows to reproduce, experiments for all figures included in the paper "Optimistic, Signature-Free Reliable Broadcast and Its Applications".
 
-Branch OptSFSailfish represents Sailfish++ using optimistic RBC under failure-free case.
+The artifact consists of a docker image containing code allowing to reproduce the experiments described in the paper "Optimistic, Signature-Free Reliable Broadcast and Its Applications", CCS 2025.
 
-Branch SFSailfish represents Sailfish++ using Bracha RBC under failure-free case.
+For the DAG consensus experiments, the git repository contains one branch per system:
+- Branch OptSFSailfish represents Sailfish++ using optimistic RBC under failure-free case.
+- Branch SFSailfish represents Sailfish++ using Bracha RBC under failure-free case.
+- Branch SFBullshark represents signature-free SFBullshark under failure-free case.
+- Branch Sailfish represents valinla Sailfish.
+- Branch SFSailfishFault represents Sailfish++ under failure case.
+- Branch SailfishFault represents Sailfish  under failure case.
+- Branch SFBullsharkFault represents Bullshark  under failure case.
 
-Branch SFBullshark represents signature-free SFBullshark under failure-free case.
+For convenience, each branch has been checked out in its own directory.
+However, the GCP scripts require access to a git repository with this exact branch structure.
+The scripts use "https://github.com/qyu100/SFSailfish.git".
+If this GitHub repository is not available, you can host the git repository (which you can find in the image under `/home/user/CCS2025-artifact/` at a location of your choice and modify `benchmark/settings.json` accordingly.
 
-Branch Sailfish represents valinla Sailfish.
+Finally, formal specifications and model-checking configuration can be found in the [formal-specifications](./formal-specifications) directory, including a README file containing instructions.
 
-Branch SFSailfishFault represents Sailfish++ under failure case.
+# Detailed instructions for DAG consensus experiments
 
-Branch SailfishFault represents Sailfish  under failure case.
+## Running the Docker image and uploading credentials
 
-Branch SFBullsharkFault represents Bullshark  under failure case.
+To run the docker image:
+If using Linux, first unzip the image with `gunzip ccs-25.tar.gz`, then `docker load -i ccs-25.tar`.
+Verify the image is loaded using `docker images`.
+Finally, run the image with `docker run --rm -it ccs-25`.
+ 
+Next, you will be given 3 files (`sf-dag`, `sf-dag.pug`, and `key.json`) to upload to the image. If you do not have them, request them from the program chairs. Once you have the 3 files, uploaded them to the running image as follows:
 
-# Testing Locally
-The core protocols are written in Rust, but all benchmarking scripts are written in Python and run with [Fabric](https://www.fabfile.org/). To deploy and benchmark a testbed of 10 nodes on your local machine, clone the repo and install the python dependencies:
+
 ```bash
-$ git clone https://github.com/qyu100/SFSailfish.git
-$ git checkout SFSailfish
-$ cd benchmark
-$ pip install -r requirements.txt
+docker cp sf-dag image_name:/home/user/.ssh/sf-dag
+docker cp sf-dag.pub image_name:/home/user/.ssh/sf-dag.pub
+docker cp key.json image_name:/home/user/
 ```
-You also need to install Clang (required by rocksdb). 
-After commenting out lines 12–20 in ```benchmark/instance.py```, run a local benchmark using Fabric:
+
+The process should be similar on other platforms that support Docker.
+
+## Testing Locally
+
+The core protocols are written in Rust, but all benchmarking scripts are written in Python and run with [Fabric](https://www.fabfile.org/). To deploy and benchmark a testbed of 10 nodes on your local machine: 
 ```bash
-$ fab local
+cd CCS2025-artifact/benchmark
+fab local
 ```
+
+If you do not have credentials, you need to comment out lines 12–20 in ```benchmark/instance.py```.
 
 This command may take a long time the first time you run it (compiling rust code in ```release``` mode may be slow) and you can customize a number of benchmark parameters in ```fabfile.py```. When the benchmark terminates, it displays a summary of the execution similarly to the one below.
 
@@ -64,7 +83,7 @@ This command may take a long time the first time you run it (compiling rust code
 -----------------------------------------
 ```
 
-# Running Experiments on GCP
+## Running Experiments on GCP
 The GCP configuration is specified in ```benchmark/settings.json```.
 Please fill in the name and path of the SSH key used to connect to the GCP machines: 
 ```  
@@ -132,6 +151,3 @@ $ fab destroy
 ```
 to shut down all the machines.
 
-# Formal Specifications
-
-See the [formal-specifications](./formal-specifications) directory.
