@@ -45,6 +45,8 @@ RUN pip3 install -r /home/user/CCS2025-artifact/SFSailfish/benchmark/requirement
 #RUN rm -rf /var/lib/apt/lists/*
 #USER user
 
+WORKDIR /home/user/
+
 RUN mkdir /home/user/.ssh/
 COPY dummy_key.json /home/user/key.json
 

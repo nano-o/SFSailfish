@@ -25,16 +25,18 @@ Finally, formal specifications and model-checking configuration can be found in 
 
 # Detailed instructions for DAG consensus experiments
 
-## Running the Docker image and copying the credentials
+## Running the Docker image and copying the GCP credentials
 
 To run the docker image:
 If using Linux, first unzip the image with `gunzip ccs-25.tar.gz`, then `docker load -i ccs-25.tar`.
 Verify the image is loaded using `docker images`.
 Finally, run the image with `docker run --rm -it ccs-25`.
  
-Next, you will be given 3 files (`sf-dag`, `sf-dag.pub`, and `key.json`) that you need to copy to the image. If you do not have them, please request them from the program chairs. Once you have the 3 files, uploaded them to the running image as follows:
+Next, you will need to copy 3 key files to the image: `sf-dag`, `sf-dag.pub`, and `key.json`.
+- `key.json` provides access to a GCP account.
+- `sf-dag` and `sf-dag.pub` is a private/public SSH key pair allowing SSH access to the GCP machines.
 
-
+Copy those files to the running image as follows:
 ```bash
 docker cp sf-dag image_name:/home/user/.ssh/sf-dag
 docker cp sf-dag.pub image_name:/home/user/.ssh/sf-dag.pub
@@ -124,4 +126,3 @@ After completing all experiments, run:
 $ fab destroy
 ```
 to shut down all the machines.
-
