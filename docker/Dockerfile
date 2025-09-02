@@ -26,7 +26,8 @@ RUN git clone https://github.com/nano-o/SFSailfish /home/user/CCS2025-artifact
 WORKDIR /home/user/CCS2025-artifact
 # For ease of navigation, checkout each experiment branch into its own directory:
 RUN git fetch --all && \
-    for branch in OptSFSailfish SFBullshark SFBullsharkFault SFSailfish SFSailfishFault Sailfish SailfishFault; do \
+    for branch in OptSFSailfish SFBullshark SFBullsharkFault \
+            SFSailfish SFSailfishFault Sailfish SailfishFault; do \
         git worktree add ${branch} ${branch}; \
     done
 WORKDIR /home/user/CCS2025-artifact/formal-specifications
