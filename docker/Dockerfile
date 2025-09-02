@@ -22,7 +22,7 @@ USER user
 RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path
 ENV PATH="/home/user/.cargo/bin:${PATH}"
 
-RUN git clone https://github.com/qyu100/SFSailfish /home/user/CCS2025-artifact
+RUN git clone https://github.com/nano-o/SFSailfish /home/user/CCS2025-artifact
 WORKDIR /home/user/CCS2025-artifact
 # For ease of navigation, checkout each experiment branch into its own directory:
 RUN git fetch --all && \
@@ -44,6 +44,7 @@ RUN pip3 install -r /home/user/CCS2025-artifact/SFSailfish/benchmark/requirement
 #USER user
 
 RUN mkdir /home/user/.ssh/
+COPY dummy_key.json /home/user/key.json
 
 # Default command is to start a shell interactively
 CMD ["/bin/bash"]
