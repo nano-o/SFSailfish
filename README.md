@@ -25,14 +25,14 @@ Finally, formal specifications and model-checking configuration can be found in 
 
 # Detailed instructions for DAG consensus experiments
 
-## Running the Docker image and uploading credentials
+## Running the Docker image and copying the credentials
 
 To run the docker image:
 If using Linux, first unzip the image with `gunzip ccs-25.tar.gz`, then `docker load -i ccs-25.tar`.
 Verify the image is loaded using `docker images`.
 Finally, run the image with `docker run --rm -it ccs-25`.
  
-Next, you will be given 3 files (`sf-dag`, `sf-dag.pug`, and `key.json`) to upload to the image. If you do not have them, request them from the program chairs. Once you have the 3 files, uploaded them to the running image as follows:
+Next, you will be given 3 files (`sf-dag`, `sf-dag.pub`, and `key.json`) that you need to copy to the image. If you do not have them, please request them from the program chairs. Once you have the 3 files, uploaded them to the running image as follows:
 
 
 ```bash
@@ -51,7 +51,7 @@ cd CCS2025-artifact/benchmark
 fab local
 ```
 
-If you do not have credentials, you need to comment out lines 12–20 in ```benchmark/instance.py```.
+Testing locally should work even if you do not have credentials.
 
 This command may take a long time the first time you run it (compiling rust code in ```release``` mode may be slow) and you can customize a number of benchmark parameters in ```fabfile.py```. When the benchmark terminates, it displays a summary of the execution similarly to the one below.
 
@@ -84,34 +84,8 @@ This command may take a long time the first time you run it (compiling rust code
 ```
 
 ## Running Experiments on GCP
-The GCP configuration is specified in ```benchmark/settings.json```.
-Please fill in the name and path of the SSH key used to connect to the GCP machines: 
-```  
-"key": {
-        "name": "",
-        "path": ""
-    },
-```
-For example:
-```  
-"key": {
-        "name": "sf-dag",
-        "path": "/home/user/.ssh/sf-dag"
-    },
-```
 
-You also need to place the GCP Service Account Key JSON file (downloaded from the Google Cloud Console) somewhere on your filesystem and indicate its location in ```benchmark/benchmark/instance.py``` line 13.
-For example:
-```
-GCP_KEY_PATH = '../benchmark/benchmark/key.json'
-
-```
-
-Finally, you also need to indicate the location of your SSH public key in ```benchmark/benchmark/instance.py``` line 14.
-For example:
-```
-SSH_PUB_KEY_PATH = '/home/user/.ssh/sf-dag.pub'
-```
+For this you need to have copied the credentials into the image as explained before.
 
 Then you can run 
 ```bash
