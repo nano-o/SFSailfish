@@ -28,7 +28,7 @@ RUN git fetch --all
 RUN git checkout overview
 # For ease of navigation, checkout each experiment branch into its own directory:
 RUN for branch in OptSFSailfish SFBullshark SFBullsharkFault SFSailfish \
-            SFSailfishFault Sailfish SailfishFault; do \
+            Sailfish SailfishFault; do \
         git worktree add ${branch} ${branch}; \
     done
 WORKDIR /home/user/CCS2025-artifact/formal-specifications
