@@ -24,10 +24,11 @@ ENV PATH="/home/user/.cargo/bin:${PATH}"
 
 RUN git clone https://github.com/nano-o/SFSailfish /home/user/CCS2025-artifact
 WORKDIR /home/user/CCS2025-artifact
+RUN git fetch --all
+RUN git checkout overview
 # For ease of navigation, checkout each experiment branch into its own directory:
-RUN git fetch --all && \
-    for branch in OptSFSailfish SFBullshark SFBullsharkFault \
-            SFSailfish SFSailfishFault Sailfish SailfishFault; do \
+RUN for branch in OptSFSailfish SFBullshark SFBullsharkFault SFSailfish \
+            SFSailfishFault Sailfish SailfishFault; do \
         git worktree add ${branch} ${branch}; \
     done
 WORKDIR /home/user/CCS2025-artifact/formal-specifications
